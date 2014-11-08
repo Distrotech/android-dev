@@ -23,4 +23,4 @@ repo repo_sync clean distclean .repo.ok .repo:
 %.sdk:
 	@make -C aosp BRANCH=$(AOSP_BRANCH) MAKE_TARGET=sdk $@
 
-.PHONY: studio studio-install clean sdk android-studio $(LUNCH_VERSION) android-x86
+.PHONY: studio gradle tools android-studio studio-install clean sdk repo_sync repo_init repo .repo .repo.ok $(LUNCH_VERSION) android-x86 $(LUNCH_VERSION).sdk

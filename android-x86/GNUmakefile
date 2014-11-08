@@ -31,4 +31,4 @@ clean:
 distclean: clean
 	@rm -f .repo.ok
 
-.PHONY: iso_img clean all distclean
+.PHONY: iso_img clean all distclean repo_init repo_sync

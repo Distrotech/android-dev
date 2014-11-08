@@ -41,4 +41,4 @@ distclean: clean
 %.sdk: .repo .repo.ok
 	@make $(basename $@)
 
-.PHONY: sdk clean buildspec-x86_64 distclean
+.PHONY: sdk clean buildspec-x86_64 distclean repo_init repo_sync sdk_x86_64-user sdk_x86_64-user.sdk
