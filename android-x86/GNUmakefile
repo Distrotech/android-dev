@@ -12,19 +12,19 @@ repo_sync: repo_init
 	@./repo sync -d && touch .repo.ok
 
 .repo .repo.ok:
-	@make BRANCH=${BRANCH} repo_sync
+	@$(MAKE) BRANCH=${BRANCH} repo_sync
 
 .ONESHELL:
 iso_img: .repo .repo.ok
 	@. build/envsetup.sh
 	@lunch $(LUNCH_VERSION)
-	@make -f Makefile $@
+	@$(MAKE) -f Makefile $@
 
 .ONESHELL:
 clean:
 	@. build/envsetup.sh
 	@lunch $(LUNCH_VERSION)
-	@make -f Makefile clean installclean clobber
+	@$(MAKE) -f Makefile clean installclean clobber
 	@rm -f buildspec.mk repo
 	@rm -rf out
 
@@ -32,3 +32,4 @@ distclean: clean
 	@rm -f .repo.ok
 
 .PHONY: iso_img clean all distclean repo_init repo_sync
+.FEATURES: jobserver oneshell

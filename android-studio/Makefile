@@ -20,13 +20,12 @@ repo_sync: repo_init
 	@./repo sync -d && touch .repo.ok
 
 .repo .repo.ok:
-	@make BRANCH=${BRANCH} repo_sync
+	@$(MAKE) BRANCH=${BRANCH} repo_sync
 
 .ONESHELL:
 $(GRADLE_FILE):
 	@JAVA_HOME=$(JAVA6);
 	@PATH=$(JAVA6)/bin:${PATH};
-	@echo ${JAVA_HOME} ${PATH}
 	@cd tools;
 	@./gradlew prepareRepo;
 	@./gradlew clean assemble;
@@ -36,7 +35,7 @@ $(LINTOOLS):
 	@JAVA_HOME=$(JAVA6);
 	@PATH=$(JAVA6)/bin:${PATH};
 	@mkdir -p out/adt;
-	@echo ./tools/buildSrc/servers/build_tools.sh $(CWD)/out $(CWD)/out/adt $(VERSION)
+	@./tools/buildSrc/servers/build_tools.sh $(CWD)/out $(CWD)/out/adt $(VERSION)
 
 $(STUDIO):
 	cd tools/idea && ant
@@ -58,3 +57,4 @@ install studio-install:
 	tar -C $(JVMDIR) -xf $(STUDIO)
 
 .PHONY: all repo_init repo_sync gradle studio tools clean distclean install android-studio studio-install
+.FEATURES: jobserver oneshell

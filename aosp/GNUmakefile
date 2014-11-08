@@ -8,10 +8,10 @@ repo_sync: repo_init
 	@./repo sync -d && touch .repo.ok
 
 sdk_x86_64-user: buildspec-x86_64
-	@make LUNCH_VERSION=$@ sdk
+	@$(MAKE) LUNCH_VERSION=$@ sdk
 
 .repo .repo.ok:
-	@make BRANCH=${BRANCH} repo_sync
+	@$(MAKE) BRANCH=${BRANCH} repo_sync
 
 .ONESHELL:
 buildspec-x86_64:
@@ -25,13 +25,13 @@ buildspec-x86_64:
 sdk:
 	@. build/envsetup.sh
 	@lunch $(LUNCH_VERSION)
-	@make -f Makefile $@
+	@$(MAKE) -f Makefile $@
 
 .ONESHELL:
 clean:
 	@. build/envsetup.sh
 	@lunch $(LUNCH_VERSION)
-	@make -f Makefile clean installclean clobber
+	@$(MAKE) -f Makefile clean installclean clobber
 	@rm -f buildspec.mk repo
 	@rm -rf out
 
@@ -39,6 +39,7 @@ distclean: clean
 	@rm -f .repo.ok
 
 %.sdk: .repo .repo.ok
-	@make $(basename $@)
+	@$(MAKE) $(basename $@)
 
 .PHONY: sdk clean buildspec-x86_64 distclean repo_init repo_sync sdk_x86_64-user sdk_x86_64-user.sdk
+.FEATURES: jobserver oneshell
