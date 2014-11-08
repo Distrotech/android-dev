@@ -8,7 +8,8 @@ VERSION = 1
 LINTOOLS = out/adt/sdk-repo-linux-tools-$(VERSION).zip 
 GRADLE_FILE = out/build/swt/uiautomatorviewer/build/libs/uiautomatorviewer-23.2.1.jar
 
-android-studio all: repo .repo.ok tools studio
+.NOTPARALLEL:
+android-studio all: tools studio
 
 repo:
 	@wget https://storage.googleapis.com/git-repo-downloads/repo && chmod 750 repo
