@@ -1,6 +1,6 @@
 JVMDIR = /usr/lib64/jvm
 JAVA6 = $(JVMDIR)/jdk-1.6.0_32
-SDKDIR = /root/android-sdk_eng.root_linux-x86
+SDK_INSTALL_DIR = /opt/android
 ANT_HOME = /usr/lib64/jvm/apache-ant-1.9.2
 STUDIO = tools/idea/out/artifacts/android-studio-SNAPSHOT.tar.gz
 CWD=$(shell /bin/pwd)
@@ -54,8 +54,9 @@ distclean: clean
 	@rm -f .repo.ok
 
 install studio-install:
-	@unzip -d $(SDKDIR) -o $(LINTOOLS); \
-	tar -C $(JVMDIR) -xf $(STUDIO)
+	@install -d $(DESTDIR)$(SDK_INSTALL_DIR) $(DESTDIR)$(JVMDIR)
+	@unzip -d $(DESTDIR)$(SDK_INSTALL_DIR) -o $(LINTOOLS); \
+	tar -C $(DESTDIR)$(JVMDIR) -xf $(STUDIO)
 
 .PHONY: all repo_init repo_sync gradle studio tools clean distclean install android-studio studio-install
 .FEATURES: jobserver oneshell
