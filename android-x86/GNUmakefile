@@ -1,6 +1,8 @@
-LUNCH_VERSION = android_x86-user
+LUNCH_VERSION = android_x86-eng
+IMGFILE = out/target/product/x86/android_x86.iso
 
-all: iso_img
+.NOTPARALLEL:
+all iso_img: .repo .repo.ok $(IMGFILE)
 
 repo:
 	@wget https://storage.googleapis.com/git-repo-downloads/repo && chmod 750 repo
@@ -15,7 +17,8 @@ repo_sync: repo_init
 	@$(MAKE) BRANCH=${BRANCH} repo_sync
 
 .ONESHELL:
-iso_img: .repo .repo.ok
+.NOTPARALLEL:
+$(IMGFILE):
 	@. build/envsetup.sh
 	@lunch $(LUNCH_VERSION)
 	@$(MAKE) -f Makefile $@
@@ -31,5 +34,7 @@ clean:
 distclean: clean
 	@rm -f .repo.ok
 
-.PHONY: iso_img clean all distclean repo_init repo_sync
+install:
+
+.PHONY: iso_img clean all distclean repo_init repo_sync install
 .FEATURES: jobserver oneshell
