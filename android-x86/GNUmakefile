@@ -35,6 +35,8 @@ distclean: clean
 	@rm -f .repo.ok
 
 install:
+	install -d $(DESTDIR)/opt/android/android-x86
+	install -T $(IMGFILE) $(DESTDIR)/opt/android/android-x86/$(BRANCH).iso
 
 .PHONY: iso_img clean all distclean repo_init repo_sync install
 .FEATURES: jobserver oneshell

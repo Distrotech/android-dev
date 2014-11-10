@@ -20,10 +20,21 @@ sdk:
 android-x86:
 	@$(MAKE) -C android-x86 BRANCH=$(ANDROID_X86_BRANCH)
 
-repo repo_sync clean distclean .repo.ok .repo install:
+clean::
+	@rm -f android-sdk-*.rpm
+	@rm -rf rpm/BUILD rpm/RPMS
+
+repo repo_sync distclean .repo.ok .repo install clean::
 	@$(MAKE) -C android-studio BRANCH=$(STUDIO_BRANCH) JAVA6=$(JAVA6) $@
 	@$(MAKE) -C aosp BRANCH=$(AOSP_BRANCH) LUNCH_VERSION=$(SDK_LUNCH_VERSION) SDK_DIR=$(SDK_DIR) $@
 	@$(MAKE) -C android-x86 BRANCH=$(ANDROID_X86_BRANCH) $@
 
-.PHONY: studio gradle tools android-studio studio-install clean sdk repo_sync repo_init repo .repo .repo.ok android-x86
+rpm: all
+	install -d rpm/BUILD rpm/RPMS/$(SDK_ARCH)
+	@$(MAKE) DESTDIR=../rpm/BUILDROOT install
+	@rpmbuild -bb --buildroot=`pwd`/rpm/BUILDROOT rpm/SPECS/android-sdk.spec
+	@mv rpm/RPMS/$(SDK_ARCH)/* .
+	@rm -rf rpm/BUILD rpm/RPMS
+
+.PHONY: studio gradle tools android-studio studio-install clean sdk repo_sync repo_init repo .repo .repo.ok android-x86 rpm
 .FEATURES: jobserver oneshell

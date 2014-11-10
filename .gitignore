@@ -60,3 +60,5 @@ android-x86/.repo.ok
 android-x86/out
 android-x86/packages
 android-x86/vendor
+rpm/RPMS/
+android-sdk-*.rpm
