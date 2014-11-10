@@ -13,6 +13,9 @@ To install SDK/ADT/Studio
 
 make install
 
+To build everything as .rpm files
+make -j&lt;Number of CPU cores&gt; rpm
+
 To build SDK
 
 make -j&lt;Number of CPU cores&gt; sdk
