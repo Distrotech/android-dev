@@ -6,7 +6,7 @@ STUDIO_BRANCH = studio-1.1-release
 
 SDK_SYSTEM = linux-x86
 SDK_ARCH = x86_64
-SDK_LUNCH_VERSION = sdk_$(SDK_ARCH)-user
+SDK_LUNCH_VERSION = sdk_$(SDK_ARCH)-eng
 SDK_DIR = out/host/$(SDK_SYSTEM)/sdk/sdk_$(SDK_ARCH)/android-sdk_eng.root_$(SDK_SYSTEM)
 
 all: sdk android-studio android-x86

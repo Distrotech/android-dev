@@ -1,3 +1,5 @@
+SDK_INSTALL_DIR = /opt/android
+
 repo:
 	@wget https://storage.googleapis.com/git-repo-downloads/repo && chmod 750 repo
 
@@ -7,8 +9,8 @@ repo_init: repo
 repo_sync: repo_init
 	@./repo sync -d && touch .repo.ok
 
-sdk_x86_64-user: buildspec-x86_64
-	@$(MAKE) LUNCH_VERSION=$@ sdk
+sdk_x86_64-eng: buildspec-x86_64
+	@$(MAKE) LUNCH_VERSION=$@ $(SDK_DIR).zip
 
 .repo .repo.ok:
 	@$(MAKE) BRANCH=${BRANCH} repo_sync
@@ -22,10 +24,10 @@ buildspec-x86_64:
 	__EOF__
 
 .ONESHELL:
-sdk:
+$(SDK_DIR).zip:
 	@. build/envsetup.sh
 	@lunch $(LUNCH_VERSION)
-	@$(MAKE) -f Makefile $@
+	@$(MAKE) -f Makefile sdk
 
 .ONESHELL:
 clean:
@@ -38,8 +40,13 @@ clean:
 distclean: clean
 	@rm -f .repo.ok
 
-%.sdk: .repo .repo.ok
-	@$(MAKE) $(basename $@)
+install:
+	install -d $(DESTDIR)$(SDK_INSTALL_DIR)
+	cp -r $(SDK_DIR)/* $(DESTDIR)$(SDK_INSTALL_DIR)/
 
-.PHONY: sdk clean buildspec-x86_64 distclean repo_init repo_sync sdk_x86_64-user sdk_x86_64-user.sdk
+.NOTPARALLEL:
+%.sdk: .repo .repo.ok
+	@$(MAKE) SDK_DIR=$(SDK_DIR) $(basename $@)
+
+.PHONY: sdk clean buildspec-x86_64 distclean repo_init repo_sync install
 .FEATURES: jobserver oneshell
