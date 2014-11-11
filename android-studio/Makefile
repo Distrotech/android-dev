@@ -55,8 +55,8 @@ distclean: clean
 
 install studio-install:
 	@install -d $(DESTDIR)$(SDK_INSTALL_DIR) $(DESTDIR)$(SDK_INSTALL_DIR)-studio
-	@unzip -d $(DESTDIR)$(SDK_INSTALL_DIR) -o $(LINTOOLS); \
-	tar -C $(DESTDIR)$(SDK_INSTALL_DIR)-studio --strip-components=1 --xf $(STUDIO)
+	@unzip -d $(DESTDIR)$(SDK_INSTALL_DIR) -o $(LINTOOLS)
+	@tar -C $(DESTDIR)$(SDK_INSTALL_DIR)-studio --strip-components=1 -xf $(STUDIO)
 
 .PHONY: all repo_init repo_sync gradle studio tools clean distclean install android-studio studio-install
 .FEATURES: jobserver oneshell
